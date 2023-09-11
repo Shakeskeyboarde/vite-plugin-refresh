@@ -1,0 +1,47 @@
+{
+  "name": "vite-plugin-refresh",
+  "version": "1.0.0",
+  "description": "Enhances the Vite dev server by adding dependencies to the watcher, and optionally doing full page reloads on changes.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shakeskeyboarde/vite-plugin-refresh.git"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "vite-plugin",
+    "vitejs",
+    "reload",
+    "refresh",
+    "hmr",
+    "dependencies",
+    "watch"
+  ],
+  "type": "module",
+  "files": [
+    "lib/**"
+  ],
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "eslint --max-warnings=0 .",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.0",
+    "eslint": "^8.49.0",
+    "eslint-config-rational": "^3.0.8",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "vite": ">=4.4.9"
+  }
+}
