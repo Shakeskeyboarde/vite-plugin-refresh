@@ -16,11 +16,6 @@ export interface RefreshPluginOptions {
    */
   exclude?: string[];
   /**
-   * Do a full page reload (disables HMR) when a watched file changes.
-   * Defaults to `false`.
-   */
-  reload?: boolean;
-  /**
    * Delay in milliseconds before reloading the page. Defaults to `1000`.
    */
   delay?: number;
@@ -30,13 +25,7 @@ export interface RefreshPluginOptions {
   log?: boolean;
 }
 
-export default ({
-  include = [],
-  exclude = [],
-  reload = false,
-  delay = 1000,
-  log = false,
-}: RefreshPluginOptions = {}): Plugin => ({
+export default ({ include = [], exclude = [], delay = 1000, log = false }: RefreshPluginOptions = {}): Plugin => ({
   name: 'vite-plugin-refresh',
   apply: 'serve',
   config: async () => {
@@ -50,29 +39,15 @@ export default ({
       }),
     );
 
-    /*
-     * XXX: React and ReactDOM are excluded by default because they cause
-     * errors when they are de-optimized.
-     */
-    deps.delete('react');
-    deps.delete('react-dom');
-
     include.forEach((dep) => deps.add(dep));
     exclude.forEach((dep) => deps.delete(dep));
 
     return {
       server: {
-        hmr: !reload,
+        hmr: true,
         watch: {
           ignored: [...deps].map((dep) => `!**/node_modules/${dep}/**`),
         },
-      },
-      optimizeDeps: {
-        /*
-         * Dependencies must be de-optimized so that they appear in the
-         * dependency graph and trigger a hot reload.
-         */
-        exclude: [...deps],
       },
     };
   },
@@ -83,13 +58,11 @@ export default ({
     const onChange = (path: string): void => {
       if (log) logger.info(`file changed: ${path}`);
 
-      if (reload) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          if (log) logger.info('page reloading...');
-          ws.send({ type: 'full-reload', path: '*' });
-        }, delay);
-      }
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (log) logger.info('page reloading...');
+        ws.send({ type: 'full-reload', path: '*' });
+      }, delay);
     };
 
     watcher.on('add', onChange);
