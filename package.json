@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-refresh",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enhances the Vite dev server by adding dependencies to the watcher, and optionally doing full page reloads on changes.",
   "license": "ISC",
   "repository": {

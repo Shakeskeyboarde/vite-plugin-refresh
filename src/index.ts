@@ -50,6 +50,13 @@ export default ({
       }),
     );
 
+    /*
+     * XXX: React and ReactDOM are excluded by default because they cause
+     * errors when they are de-optimized.
+     */
+    deps.delete('react');
+    deps.delete('react-dom');
+
     include.forEach((dep) => deps.add(dep));
     exclude.forEach((dep) => deps.delete(dep));
 
@@ -65,7 +72,7 @@ export default ({
          * Dependencies must be de-optimized so that they appear in the
          * dependency graph and trigger a hot reload.
          */
-        disabled: true,
+        exclude: [...deps],
       },
     };
   },
