@@ -1,47 +1,29 @@
 {
-  "name": "vite-plugin-refresh",
-  "version": "1.0.2",
-  "description": "Enhances the Vite dev server by adding dependencies to the watcher, and optionally doing full page reloads on changes.",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Shakeskeyboarde/vite-plugin-refresh.git"
-  },
-  "keywords": [
-    "vite",
-    "plugin",
-    "vite-plugin",
-    "vitejs",
-    "reload",
-    "refresh",
-    "hmr",
-    "dependencies",
-    "watch"
-  ],
+  "private": true,
+  "name": "root",
+  "version": "1.0.0",
   "type": "module",
-  "files": [
-    "lib/**"
-  ],
-  "types": "./lib/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "default": "./lib/index.js"
-    }
-  },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "werk build",
+    "start": "werk build --watch",
     "test": "eslint --max-warnings=0 .",
-    "prepublishOnly": "npm run build && npm run test"
+    "modernize": "npx npm-check-updates@latest -i --workspaces --root --format group"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@types/node": "^20.6.0",
+    "@vitejs/plugin-react": "^4.0.4",
+    "@werk/cli": "^3.0.2",
+    "@werk/command-build": "^1.1.30",
+    "@werk/command-publish": "^2.0.3",
+    "@werk/command-version": "^3.0.2",
     "eslint": "^8.49.0",
     "eslint-config-rational": "^3.0.8",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
-  },
-  "peerDependencies": {
-    "vite": ">=4.4.9"
+    "typescript": "^5.2.2",
+    "vite": ">=4.4.9",
+    "vite-plugin-dts": "^3.5.3"
   }
 }

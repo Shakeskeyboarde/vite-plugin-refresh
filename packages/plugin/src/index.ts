@@ -44,7 +44,6 @@ export default ({ include = [], exclude = [], delay = 1000, log = false }: Refre
 
     return {
       server: {
-        hmr: true,
         watch: {
           ignored: [...deps].map((dep) => `!**/node_modules/${dep}/**`),
         },
@@ -56,16 +55,21 @@ export default ({ include = [], exclude = [], delay = 1000, log = false }: Refre
     let timeout: NodeJS.Timeout | undefined;
 
     const onChange = (path: string): void => {
-      if (log) logger.info(`file changed: ${path}`);
+      if (log) logger.info(`${new Date().toLocaleTimeString()} [vite:refresh] file changed: ${path}`);
 
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        if (log) logger.info('page reloading...');
+        if (log) logger.info(`${new Date().toLocaleTimeString()} [vite:refresh] page reload`);
+
         ws.send({ type: 'full-reload', path: '*' });
       }, delay);
     };
 
     watcher.on('add', onChange);
     watcher.on('change', onChange);
+  },
+  handleHotUpdate: () => {
+    // Forcibly disable HMR.
+    return [];
   },
 });
